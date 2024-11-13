@@ -64,7 +64,6 @@ for key in regioes:
 
 datas = data[:, 0]
 dias_unicos = np.unique(datas)
-print(dias_unicos)
 vendas_por_dia = []
 
 for dia in dias_unicos:
