@@ -3,7 +3,9 @@ Usar numpy para realizar analize de dados de uma database csv
 
 """
 import csv
+import datetime as dt
 import numpy as np
+
 
 data = np.array([])
 #Data,Região,Produto,Quantidade Vendida,Preço Unitário,Valor Total
@@ -19,9 +21,6 @@ with open("vendas.csv", newline='') as file:
             data = np.hstack((data, row))
             start = 2
             continue
-        for i in range(len(row)):
-            for j in range(3, 5):
-                row[j] = float(row[j])
         data = np.vstack((data, row))
 
 valor_total_raw = data[:, 5]
@@ -65,7 +64,7 @@ for key in regioes:
 
 datas = data[:, 0]
 dias_unicos = np.unique(datas)
-
+print(dias_unicos)
 vendas_por_dia = []
 
 for dia in dias_unicos:
@@ -84,5 +83,25 @@ Calcular variação diária no valor total de vendas
 #Mapear cada dia da semana para um index
 #Somar a quantidade de vendas para cada dia
 #Determinar o dia com a maior quantidade de vendas
-dias_semana = np.array([d.view('datetime64[D]').astype(float) % 7 for d in datas.astype(np.datetime64)])
-print(dias_semana)
+
+vendas_dia_semana = {}
+for item in data:
+    dia = (dt.datetime.strptime(item[0], '%Y-%m-%d')).weekday()
+    vendas_dia_semana[dia] = vendas_dia_semana.get(dia, 0.0) + float(item[3])
+
+dias_semana = {
+    0 : "Segunda",
+    1 : "Terça",
+    2 : "Quarta",
+    3 : "Quinta",
+    4 : "Sexta",
+    5 : "Sábado",
+    6 : "Domingo",
+    }
+
+maior_vendas_dia_semana = max(vendas_dia_semana.values())
+print(f'Dia da semana com maior quantidade de vendas: {dias_semana[list(vendas_dia_semana.keys())[list(vendas_dia_semana.values()).index(maior_vendas_dia_semana)]]}') # me perdoa por essa abominação
+
+diferença_dias = np.mean(np.diff(qtd, axis=0))
+
+print(f'Variação média de venda dos dias: {diferença_dias:.2f}')
