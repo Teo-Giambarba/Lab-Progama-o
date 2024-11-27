@@ -26,8 +26,36 @@ matriz *= trans_matriz
 print(matriz)
 
 # 9 - Dado o seguinte array de valores x=[1,2,3,4,5] e y=[2,4,6,8,10], use numpy.interp para estimar os valores de y correspondentes a x=[1.5,2.5,3.5,4.5].
+print(f"\n|Exercicio 9|\n")
+x = [1,2,3,4,5]
+y = [2,4,6,8,10]
+xfinal = [1.5,2.5,3.5,4.5]
+result = np.interp(xfinal, x, y)
+print(result)
 
-
-# 18 - 18. Crie um array representando os coeficientes do polinômio p(x) = x^3 - 4x^2 +6x - 24. Use funções do NumPy para calcular:
+# 18 - Crie um array representando os coeficientes do polinômio p(x) = x^3 - 4x^2 +6x - 24. Use funções do NumPy para calcular:
 # a. As raízes do polinômio.
 # b. O valor de p(x) para x=2.
+print(f"\n|Exercicio 18|\n")
+p = np.polynomial.Polynomial([24,6,-4,1])
+print(p.roots())
+print(p(2))
+
+# 19 -  Crie uma matriz 3×33 \times 33×3 com números de 1 a 9. Subtraia de cada linha o valor da média dessa linha usando o conceito de broadcasting.
+print(f"\n|Exercicio 19|\n")
+matriz = np.matmul(np.random.uniform(1, 9, 99).reshape(3, 33), np.random.uniform(1, 9, 99).reshape(33, 3))
+for linha in matriz:
+    linha -= np.mean(linha)
+print(matriz)
+
+# 27 - Crie uma matriz 2×2 para representar uma transformação linear e um vetor v=[1,2]. Aplique a transformação ao vetor v multiplicando-o pela matriz.
+print(f"\n|Exercicio 27|\n")
+
+matriz = np.array([[1,2],[3,4]])
+v = np.array([1, 2])
+matriz = np.matmul(matriz, v)
+print(matriz)
+
+# 30 - Crie um conjunto de dados simulando uma relação linear: y=2x+3+ruído, onde x varia de 0 a 10 (20 pontos). Use a álgebra matricial do NumPy para
+# calcular os coeficientes da regressão linear y=ax+b. Compare os resultados com os obtidos usando a função numpy.polyfit.
+print(f"\n|Exercicio 30|\n")
